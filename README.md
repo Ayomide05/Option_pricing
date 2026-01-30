@@ -165,12 +165,84 @@ How the smile shape changes across expiration dates. Shorter expiries show more 
 
 ## Phase 3: Monte Carlo Pricing
 
-*Coming soon*
+### Why Monte Carlo?
 
-- Geometric Brownian Motion simulation
-- European option pricing via Monte Carlo
-- Path-dependent options (Asian, Barrier)
-- Variance reduction techniques
+Monte Carlo simulation can price any option, including path-dependent options that have no closed-form solution.
+
+| Option Type | Black-Scholes | Monte Carlo |
+|-------------|---------------|-------------|
+| European call/put | ✓ Exact formula | ✓ Works |
+| Asian options (average price) | ✗ No formula | ✓ Works |
+| Barrier options (knock-in/out) | Partial | ✓ Works |
+| Lookback options | ✗ No formula | ✓ Works |
+
+### The Method
+
+1. Simulate stock price paths using Geometric Brownian Motion
+2. Calculate the option payoff for each path
+3. Average the payoffs
+4. Discount to present value
+
+```
+Option Price = e^(-rT) × (1/N) × Σ Payoff_i
+```
+
+### Risk-Neutral Valuation
+
+We simulate under the risk-neutral measure where the stock grows at rate r, not μ:
+
+```
+S(T) = S(0) × exp[(r - ½σ²)T + σ√T × Z]
+```
+
+The (r - ½σ²) term is the Itō correction that ensures correct expected value.
+
+### Implementation
+
+- `monte_carlo.py` — Full Monte Carlo pricing engine with:
+  - European options (validated against Black-Scholes)
+  - Asian options (arithmetic and geometric average)
+  - Barrier options (down-and-out, down-and-in, up-and-out, up-and-in)
+  - Lookback options (floating and fixed strike)
+  - Antithetic variates for variance reduction
+  - Convergence analysis
+
+### Sample Output
+
+```
+Monte Carlo Option Pricing
+============================================================
+Parameters: S0=$100, K=$100, T=1y, r=5.0%, sigma=20.0%
+
+1. EUROPEAN CALL OPTION
+Black-Scholes Call Price: $10.4506
+Monte Carlo Call Price:   $10.4115 +/- $0.0909 (95% CI)
+Error vs BS:              $0.0391
+
+3. ASIAN CALL OPTION (Arithmetic Average)
+Monte Carlo Asian Call:   $5.7717 +/- $0.0496
+Compared to European:     $-4.6398 (Asian is cheaper)
+
+4. BARRIER CALL OPTION (Down-and-Out, Barrier=$80)
+Monte Carlo Barrier Call: $10.3780 +/- $0.0912
+Compared to European:     $-0.0335 (Barrier is cheaper)
+
+5. LOOKBACK CALL OPTION (Floating Strike)
+Monte Carlo Lookback Call: $16.6759 +/- $0.0911
+Compared to European:      $+6.2644 (Lookback is more expensive)
+```
+
+### Convergence Analysis
+
+Monte Carlo converges at rate O(1/√N):
+
+```
+Paths increased by:    10x (1,000 -> 10,000)
+Std Error reduced by:  3.12x
+Theoretical reduction: 3.16x (1/sqrt(N) rule)
+```
+
+To halve the error, you need 4x more paths.
 
 ---
 
@@ -226,6 +298,7 @@ option_pricing/
 │   ├── market_data.py
 │   └── images/
 ├── phase3_monte_carlo/
+│   └── monte_carlo.py
 └── phase4_var/
 ```
 
@@ -235,14 +308,17 @@ option_pricing/
 |---------|----------------|
 | Derivatives Pricing | Black-Scholes analytical solution |
 | Risk Sensitivities | Greeks (Delta, Gamma, Vega, Theta, Rho) |
-| Numerical Methods | Newton-Raphson root finding |
+| Numerical Methods | Newton-Raphson root finding, Monte Carlo simulation |
 | Market Data Integration | Yahoo Finance API, Treasury yields |
 | Volatility Analysis | Smile, skew, term structure |
+| Path-Dependent Options | Asian, Barrier, Lookback via Monte Carlo |
+| Variance Reduction | Antithetic variates |
 
 ## References
 
 - Black, F., & Scholes, M. (1973). The Pricing of Options and Corporate Liabilities. *Journal of Political Economy*, 81(3), 637-654.
 - Hull, J. C. (2018). *Options, Futures, and Other Derivatives* (10th ed.). Pearson.
+- Glasserman, P. (2003). *Monte Carlo Methods in Financial Engineering*. Springer.
 - Wilmott, P. (2006). *Paul Wilmott on Quantitative Finance* (2nd ed.). Wiley.
 
 ## License
