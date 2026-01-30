@@ -1,6 +1,6 @@
 """
 Volatility Smile and Surface Visualization
-Volatility Smile is a phenomenon that implied volatility vaires across strike 
+Volatility Smile is a phenomenon that implied volatility varies across strike 
 prices, contradicting Black-Scholes assumption of constant volatility.
 The smile reveals that:
     - The market doesn't believe in Black-Scholes' assumptions
