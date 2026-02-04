@@ -248,16 +248,79 @@ To halve the error, you need 4x more paths.
 
 ## Phase 4: Value-at-Risk (VaR)
 
-*Coming soon*
+### What is VaR?
 
-- Historical simulation VaR
-- Parametric VaR (Delta-Normal, Delta-Gamma)
-- Monte Carlo VaR
-- Expected Shortfall (CVaR)
-- Backtesting and model validation
+VaR answers: "What is the maximum loss over a given time period, at a given confidence level?"
+
+Example: "1-day 95% VaR = $20,000" means there's a 95% probability of not losing more than $20,000 tomorrow.
+
+### Three Methods
+
+| Method | Approach | Pros | Cons |
+|--------|----------|------|------|
+| Historical | Use actual past returns | No distribution assumption | Limited by history |
+| Parametric | Assume normal distribution | Fast, analytical | Underestimates tails |
+| Monte Carlo | Simulate scenarios | Flexible | Computationally intensive |
+
+### Expected Shortfall (ES)
+
+ES answers: "If we exceed VaR, how bad is it on average?"
+
+ES is always larger than VaR and captures tail severity. Basel III now requires ES for market risk capital.
+
+### Real Market Results (AAPL)
+
+```
+Period: 2024-02-06 to 2026-02-03 (500 days)
+Daily volatility: 1.76%
+
+Method                    1-day VaR      10-day VaR
+--------------------------------------------------
+Historical                  2.70%          8.55%
+Parametric                  2.90%          9.18%
+Monte Carlo                 2.90%          9.16%
+
+Expected Shortfall: 3.93% (1.45x VaR)
+```
+
+### Portfolio VaR
+
+```
+Portfolio: AAPL (30%), MSFT (30%), GOOGL (25%), JPM (15%)
+Value: $1,000,000
+
+Diversified VaR:        $17,661
+Undiversified VaR:      $27,602
+Diversification Benefit: $7,064
+```
+
+### Backtesting
+
+```
+Test period: 250 days
+Expected exceedances: 12.5
+Actual exceedances: 16
+Kupiec p-value: 0.33
+Zone: Green ✓
+```
+
+### Visualizations
+
+#### Single Stock VaR Analysis
+![Single Stock VaR](phase4_var/images/12_single_stock_var.png)
+
+#### Portfolio VaR
+![Portfolio VaR](phase4_var/images/13_portfolio_var.png)
+
+#### Backtesting
+![Backtest](phase4_var/images/14_backtest.png)
+
+### Implementation
+
+- `var.py` — Core VaR functions (Historical, Parametric, Monte Carlo, ES, Backtesting)
+- `var_market_data.py` — Real market VaR analysis
 
 ---
-
 ## Installation
 
 ```bash
@@ -300,19 +363,24 @@ option_pricing/
 ├── phase3_monte_carlo/
 │   └── monte_carlo.py
 └── phase4_var/
+    ├── var.py
+    ├── var_market_data.py
+    └── images/
 ```
+
 
 ## Key Concepts Demonstrated
 
-| Concept | Implementation |
-|---------|----------------|
-| Derivatives Pricing | Black-Scholes analytical solution |
-| Risk Sensitivities | Greeks (Delta, Gamma, Vega, Theta, Rho) |
-| Numerical Methods | Newton-Raphson root finding, Monte Carlo simulation |
-| Market Data Integration | Yahoo Finance API, Treasury yields |
-| Volatility Analysis | Smile, skew, term structure |
-| Path-Dependent Options | Asian, Barrier, Lookback via Monte Carlo |
-| Variance Reduction | Antithetic variates |
+| Concept | Phase | Relevance |
+|---------|-------|-----------|
+| Risk-Neutral Valuation | 1, 3 | Foundation of derivatives pricing |
+| Greeks & Hedging | 1 | Risk management of option positions |
+| Implied Volatility | 2 | Market expectations, trading signals |
+| Monte Carlo Simulation | 3 | Pricing complex derivatives |
+| VaR Calculation | 4 | Regulatory capital, risk limits |
+| Expected Shortfall | 4 | Tail risk, Basel III compliance |
+| Portfolio Diversification | 4 | Risk reduction through correlation |
+| Backtesting | 4 | Model validation |
 
 ## References
 
@@ -330,4 +398,4 @@ Gabriel Justina Ayomide
 
 ---
 
-*This project is part of my journey into quantitative finance and market risk. Feedback and contributions are welcome.*
+*This project demonstrates quantitative finance and market risk concepts relevant to roles in trading, risk management, and quantitative analysis.*
