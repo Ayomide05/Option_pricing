@@ -8,10 +8,10 @@ This project is structured in phases, each building on the previous:
 
 | Phase | Topic | Status |
 |-------|-------|--------|
-| 1 | Black-Scholes Model & Greeks | ✅ Complete |
-| 2 | Implied Volatility & Market Data | ✅ Complete |
-| 3 | Monte Carlo Pricing | 🔄 In Progress |
-| 4 | Value-at-Risk (VaR) & Expected Shortfall | ⏳ Planned |
+| 1 | Black-Scholes Model & Greeks |  Complete |
+| 2 | Implied Volatility & Market Data |  Complete |
+| 3 | Monte Carlo Pricing | Complete |
+| 4 | Value-at-Risk (VaR) & Expected Shortfall | Complete |
 
 ---
 
@@ -307,13 +307,13 @@ Zone: Green ✓
 ### Visualizations
 
 #### Single Stock VaR Analysis
-![Single Stock VaR](phase4_var/images/12_single_stock_var.png)
+![Single Stock VaR](phase4_var/images/Single_stock_var.png)
 
 #### Portfolio VaR
-![Portfolio VaR](phase4_var/images/13_portfolio_var.png)
+![Portfolio VaR](phase4_var/images/Portfolio_var.png)
 
 #### Backtesting
-![Backtest](phase4_var/images/14_backtest.png)
+![Backtest](phase4_var/images/Backtest.png)
 
 ### Implementation
 
