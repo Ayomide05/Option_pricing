@@ -307,13 +307,13 @@ Zone: Green ✓
 ### Visualizations
 
 #### Single Stock VaR Analysis
-![Single Stock VaR](phase4_var/images/Single_stock_var.png)
+![Single Stock VaR](phase4_VaR/images/Single_stock_var.png)
 
 #### Portfolio VaR
-![Portfolio VaR](phase4_var/images/Portfolio_var.png)
+![Portfolio VaR](phase4_VaR/images/Portfolio_var.png)
 
 #### Backtesting
-![Backtest](phase4_var/images/Backtest.png)
+![Backtest](phase4_VaR/images/Backtest.png)
 
 ### Implementation
 
