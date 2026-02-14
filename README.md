@@ -320,6 +320,24 @@ Zone: Green ✓
 - `var.py` — Core VaR functions (Historical, Parametric, Monte Carlo, ES, Backtesting)
 - `var_market_data.py` — Real market VaR analysis
 
+### Stress Testing
+
+Stress testing complements VaR by testing extreme but plausible scenarios.
+
+**Features:**
+- Historical scenarios (Black Monday 1987, COVID 2020, 2008 GFC)
+- Hypothetical scenarios (sector-aware: tech crash, financial crisis)
+- Reverse stress testing (what causes $X loss?)
+- Sensitivity analysis (how VaR changes under stress)
+
+**Key Finding:** Under severe crisis (Vol×3, Corr→0.9), VaR increases by 294%.
+
+Tested on real market data (AAPL, MSFT, GOOGL, JPM) with actual correlations and volatilities.
+
+![Stress Testing](phase4_VaR/images/15_stress_testing.png)
+
+![Stress Testing Real Data](phase4_VaR/images/16_stress_testing_real_data.png)
+
 ---
 ## Installation
 
@@ -350,22 +368,23 @@ pip install -r requirements.txt
 ```
 option_pricing/
 ├── README.md
-├── requirements.txt
 ├── phase1_black_scholes/
 │   ├── black_scholes.py
 │   ├── greeks.py
-│   ├── visualizations.py
 │   └── images/
 ├── phase2_implied_volatility/
 │   ├── implied_volatility.py
 │   ├── market_data.py
 │   └── images/
 ├── phase3_monte_carlo/
-│   └── monte_carlo.py
-└── phase4_var/
-    ├── var.py
-    ├── var_market_data.py
-    └── images/
+│   ├── monte_carlo.py
+│   └── images/
+├── phase4_VaR/
+│   ├── var.py
+│   ├── var_market_data.py
+│   ├── stress_testing.py
+│   ├── stress_testing_market_data.py
+│   └── images/
 ```
 
 
